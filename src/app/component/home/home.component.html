@@ -27,10 +27,11 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ card.question }}</h5>
                     <p *ngIf="card.description" class="text-muted">{{ card.description }}</p>
-                    <p *ngIf="showAnswerMap[card.id]" class="text-muted">{{ card.answer }}</p>
                     <button class="btn btn-outline-dark" (click)="showAnswer(card.id)">
                         {{ showAnswerMap[card.id] ? 'Masquer la réponse' : 'Afficher la réponse' }}
                     </button>
+                    <p *ngIf="showAnswerMap[card.id]" style="color: #8A9A5B;" class="fw-bold mt-3">{{ card.answer }}</p>
+
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <div>
@@ -68,12 +69,12 @@
                 <div class="modal-body">
                     <form (ngSubmit)="submitEditCard()">
                         <div class="mb-3">
-                            <label for="editCardQuestion" class="form-label">Question</label>
+                            <label for="editCardQuestion" class="form-label">Question (*)</label>
                             <input [(ngModel)]="editCardData.question" name="question" type="text" class="form-control"
                                 id="editCardQuestion" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editCardAnswer" class="form-label">Réponse</label>
+                            <label for="editCardAnswer" class="form-label">Réponse (*)</label>
                             <textarea [(ngModel)]="editCardData.answer" name="answer" class="form-control"
                                 id="editCardAnswer" rows="3" required></textarea>
                         </div>
@@ -82,7 +83,8 @@
                             <textarea [(ngModel)]="editCardData.description" name="description" class="form-control"
                                 id="editCardDesc" rows="3" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                        <p>(*) = champs obligatoires</p>
+                        <button type="submit" class="btn btn-custom-small w-50">Enregistrer les modifications</button>
                     </form>
                 </div>
             </div>
@@ -100,12 +102,12 @@
                 <div class="modal-body">
                     <form (ngSubmit)="submitAddCard()">
                         <div class="mb-3">
-                            <label for="newCardQuestion" class="form-label">Question</label>
+                            <label for="newCardQuestion" class="form-label">Question (*)</label>
                             <input [(ngModel)]="newCard.question" name="question" type="text" class="form-control"
                                 id="newCardQuestion" required>
                         </div>
                         <div class="mb-3">
-                            <label for="newCardAnswer" class="form-label">Réponse</label>
+                            <label for="newCardAnswer" class="form-label">Réponse (*)</label>
                             <textarea [(ngModel)]="newCard.answer" name="answer" class="form-control" id="newCardAnswer"
                                 rows="3" required></textarea>
                         </div>
@@ -115,19 +117,20 @@
                                 id="newCardDesc" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="newCardColumn" class="form-label">Colonne</label>
+                            <label for="newCardColumn" class="form-label">Colonne (*)</label>
                             <select [(ngModel)]="newCard.column" name="column" class="form-select" id="newCardColumn"
                                 required>
                                 <option *ngFor="let column of columns" [value]="column.id">{{ column.label }}</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="newCardTag" class="form-label">Tag</label>
+                            <label for="newCardTag" class="form-label">Tag (*)</label>
                             <select [(ngModel)]="newCard.tag" name="tag" class="form-select" id="newCardTag" required>
                                 <option *ngFor="let tag of tags" [value]="tag.id">{{ tag.label }}</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Ajouter la carte</button>
+                        <p>(*) = champs obligatoires</p>
+                        <button type="submit" class="btn btn-custom-small w-50">Ajouter la carte</button>
                     </form>
                 </div>
             </div>
@@ -149,7 +152,7 @@
                             <input [(ngModel)]="newTag.label" name="label" type="text" class="form-control"
                                 id="addTagLabel" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Ajouter le Tag</button>
+                        <button type="submit" class="btn btn-custom-small w-50">Ajouter le Tag</button>
                     </form>
                 </div>
             </div>
