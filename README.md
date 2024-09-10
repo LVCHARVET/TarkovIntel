@@ -51,6 +51,12 @@ npx json-server db.json
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
+## User 
+
+Vous pouvez vous connecter à l'application en utilisant les identifiants suivant 
+- Utilisateur : y
+- Mot de passe : y
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
