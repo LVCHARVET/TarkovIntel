@@ -1,1 +1,330 @@
-/* You can add global styles to this file, and also import other style files */
+/* Palette de couleurs */
+:root {
+    --military-green: #4B5320;
+    --military-khaki: #8A9A5B;
+    --military-black: #2F4F4F;
+    --military-beige: #D2B48C;
+    --alert-red: #8B0000;
+    --off-white: #F5F5DC;
+}
+
+/* Globales */
+body {
+    background-color: var(--military-beige);
+    font-family: 'Roboto Mono', monospace;
+    color: var(--military-black);
+}
+
+/* Titres */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Staatliches', sans-serif;
+    text-transform: uppercase;
+    color: var(--military-green);
+}
+
+/* Cartes */
+.card {
+    border: 2px solid var(--military-green);
+    background-color: var(--off-white);
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    color: var(--military-black);
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    color: var(--military-green);
+}
+
+/* Boutons */
+button {
+    background-color: var(--military-green);
+    color: var(--off-white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: var(--military-khaki);
+    color: var(--military-black);
+}
+
+/* Alertes */
+.alert {
+    background-color: var(--alert-red);
+    color: var(--off-white);
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+    border: 2px solid var(--military-green);
+    background-color: var(--off-white);
+    padding: 10px;
+    font-family: 'Roboto Mono', monospace;
+    border-radius: 3px;
+    color: var(--military-black);
+    width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--military-khaki);
+    outline: none;
+}
+
+/* Colonnes */
+.column {
+    border: 2px dashed var(--military-khaki);
+    padding: 10px;
+    background-color: var(--off-white);
+}
+
+/* Style militaire avec Bootstrap */
+.text-military-green {
+    color: #4B5320;
+}
+
+.btn-military-green {
+    background-color: #4B5320;
+    color: #fff;
+    border: none;
+}
+
+.btn-military-green:hover {
+    background-color: #6E7B3A;
+}
+
+.card {
+    border: 2px solid #8A9A5B;
+    background-color: #F5F5DC;
+}
+
+.card-body {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.card-footer {
+    background-color: #8A9A5B;
+}
+
+.banner-container {
+    background-image: url('./assets/images/67GameBanner.webp');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    width: 100%;
+    position: relative;
+    color: white;
+}
+
+.banner-container h1 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    padding: 1rem;
+}
+
+.card-body {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.tag-button {
+    background-color: #f8f9fa;
+    border: 2px solid #adb5bd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-footer button {
+    margin: 0 0.5rem;
+}
+
+.card-footer .btn-secondary {
+    width: 2rem;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.card-footer button {
+    margin: 0;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+}
+
+.card-footer .btn-secondary {
+    font-size: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.card-footer .btn-warning,
+.card-footer .btn-danger {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.card-footer .btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+}
+
+.card-footer .btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.card-footer .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+}
+
+.card-footer .btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Conteneur pour le titre et l'image */
+.home-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+/* Conteneur pour la superposition */
+.overlay-container {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Style pour l'image */
+.overlay-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgb(5, 80, 27);
+}
+
+/* Style pour le titre */
+.app-title {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5em;
+    color: var(--military-khaki);
+    text-shadow: 2px 2px 5px rgb(0, 0, 0);
+    z-index: 2;
+    margin: 0;
+}
+
+/* Conteneur cliquable */
+.clickable-container {
+    position: relative;
+    display: inline-block;
+    width: 15%;
+    height: 100%;
+    cursor: pointer;
+    margin-bottom: 2%;
+}
+
+/* Style pour les tags sélectionnés */
+.tag-button.selected {
+    background-color: var(--military-green);
+    color: var(--off-white);
+    border-color: var(--military-green);
+    font-weight: bold;
+}
+
+.btn-add-tag {
+    background-color: var(--military-green);
+    color: var(--off-white);
+    border: 2px solid var(--military-green);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-add-tag:hover {
+    background-color: var(--military-khaki);
+    color: var(--military-black);
+}
+
+/* Style pour le bouton Ajouter une carte */
+.btn-custom {
+    background-color: var(--military-green);
+    color: var(--off-white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.btn-custom:hover {
+    background-color: var(--military-khaki);
+    color: var(--off-white);
+}
+
+/* Style pour les boutons personnalisés */
+.btn-custom-small {
+    background-color: var(--military-green);
+    color: var(--off-white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.btn-custom-small:hover {
+    background-color: var(--military-khaki);
+    color: var(--military-black);
+}

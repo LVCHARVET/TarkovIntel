@@ -1,0 +1,15 @@
+<div class="container text-center mt-5">
+    <h2 class="fw-bold text-success mb-5">Identifiants</h2>
+    <form (ngSubmit)="onLogin()" class="w-25 mx-auto">
+        <div class="mb-3">
+            <label for="login" class="form-label">Utilisateur :</label>
+            <input type="text" id="login" [(ngModel)]="login" name="login" class="form-control form-control-sm"
+                required>
+        </div>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">Mot de passe :</label>
+            <input type="password" id="pwd" [(ngModel)]="pwd" name="pwd" class="form-control form-control-sm" required>
+        </div>
+        <button type="submit" class="btn btn-custom-small w-50 mt-5">Entrer</button>
+    </form>
+</div>

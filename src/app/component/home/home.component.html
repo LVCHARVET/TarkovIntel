@@ -1,0 +1,178 @@
+<div class="container">
+    <div class="home-header mb-5">
+        <div class="overlay-container clickable-container" (click)="goHome()">
+            <img src="../../../assets/images/rene-frassek-terragroup-4k.jpg" alt="Logo" class="overlay-image">
+            <h1 class="app-title">TarkovIntel</h1>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center m-5 mt-5 ">
+        <button class="btn btn-add-tag me-2" (click)="openAddTagModal()">
+            +
+        </button>
+        <button *ngFor="let tag of tags" class="btn btn-outline-secondary me-2 tag-button "
+            [class.selected]="tag.id === selectedTag" (click)="filterByTag(tag.id)">
+            {{ tag.label }}
+        </button>
+    </div>
+
+    <div class="d-flex justify-content-center m-5 ">
+        <button class="btn btn-custom" (click)="openAddCardModal()">Ajouter une carte</button>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3" *ngFor="let column of columns">
+            <h4 class="text-military-green">{{ column.label }}</h4>
+            <div *ngFor="let card of getCardsByColumn(column.id)" class="card shadow-lg mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ card.question }}</h5>
+                    <p *ngIf="card.description" class="text-muted">{{ card.description }}</p>
+                    <p *ngIf="showAnswerMap[card.id]" class="text-muted">{{ card.answer }}</p>
+                    <button class="btn btn-outline-dark" (click)="showAnswer(card.id)">
+                        {{ showAnswerMap[card.id] ? 'Masquer la réponse' : 'Afficher la réponse' }}
+                    </button>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div>
+                        <button (click)="moveCardLeft(card)" class="btn btn-secondary me-2"
+                            [disabled]="column.id === '1'">
+                            ⬅️
+                        </button>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button (click)="openEditModal(card)" class="btn-icon btn-warning m-1">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button (click)="prepareDeleteCard(card.id)" class="btn-icon btn-danger m-1">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button (click)="moveCardRight(card)" class="btn btn-secondary" [disabled]="column.id === '4'">
+                            ➡️
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale pour la modification de carte -->
+    <div class="modal fade" id="editCardModal" tabindex="-1" aria-labelledby="editCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCardModalLabel">Modifier la carte</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="submitEditCard()">
+                        <div class="mb-3">
+                            <label for="editCardQuestion" class="form-label">Question</label>
+                            <input [(ngModel)]="editCardData.question" name="question" type="text" class="form-control"
+                                id="editCardQuestion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCardAnswer" class="form-label">Réponse</label>
+                            <textarea [(ngModel)]="editCardData.answer" name="answer" class="form-control"
+                                id="editCardAnswer" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editCardDesc" class="form-label">Description</label>
+                            <textarea [(ngModel)]="editCardData.description" name="description" class="form-control"
+                                id="editCardDesc" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale pour la création de carte -->
+    <div class="modal fade" id="addCardModal" tabindex="-1" aria-labelledby="addCardModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCardModalLabel">Ajouter une carte</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="submitAddCard()">
+                        <div class="mb-3">
+                            <label for="newCardQuestion" class="form-label">Question</label>
+                            <input [(ngModel)]="newCard.question" name="question" type="text" class="form-control"
+                                id="newCardQuestion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newCardAnswer" class="form-label">Réponse</label>
+                            <textarea [(ngModel)]="newCard.answer" name="answer" class="form-control" id="newCardAnswer"
+                                rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newCardDesc" class="form-label">Description</label>
+                            <textarea [(ngModel)]="newCard.description" name="description" class="form-control"
+                                id="newCardDesc" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newCardColumn" class="form-label">Colonne</label>
+                            <select [(ngModel)]="newCard.column" name="column" class="form-select" id="newCardColumn"
+                                required>
+                                <option *ngFor="let column of columns" [value]="column.id">{{ column.label }}</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newCardTag" class="form-label">Tag</label>
+                            <select [(ngModel)]="newCard.tag" name="tag" class="form-select" id="newCardTag" required>
+                                <option *ngFor="let tag of tags" [value]="tag.id">{{ tag.label }}</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ajouter la carte</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale pour la création de tag -->
+    <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTagModalLabel">Ajouter un Tag</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="submitAddTag()">
+                        <div class="mb-3">
+                            <label for="addTagLabel" class="form-label">Nom du Tag</label>
+                            <input [(ngModel)]="newTag.label" name="label" type="text" class="form-control"
+                                id="addTagLabel" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ajouter le Tag</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale de confirmation de suppression -->
+    <div class="modal fade" id="deleteCardModal" tabindex="-1" aria-labelledby="deleteCardModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCardModalLabel">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cette carte ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
