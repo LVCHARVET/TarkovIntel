@@ -5,6 +5,5 @@ export interface Card {
     description?: string;
     tag: string;
     column: string;
-    showAnswer?: boolean;  // Ajoutez cette ligne pour inclure la propriété showAnswer
   }
   

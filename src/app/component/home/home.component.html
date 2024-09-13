@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-center m-5 mt-5 ">
+    <div class="d-flex flex-wrap justify-content-center m-5 mt-5 ">
         <button class="btn btn-add-tag me-2" (click)="openAddTagModal()">
             +
         </button>
@@ -16,8 +16,13 @@
         </button>
     </div>
 
-    <div class="d-flex justify-content-center m-5 ">
+    <div class="d-flex justify-content-center m-5">
         <button class="btn btn-custom" (click)="openAddCardModal()">Ajouter une carte</button>
+    </div>
+
+    <div class="d-flex justify-content-center mb-3 fw-bold" style="color: #4B5320;">
+        <p> Cliquez sur "Afficher la réponse" sur une arme pour afficher les meilleurs balles pour l'arme en question.
+        </p>
     </div>
 
     <div class="row">
@@ -33,7 +38,7 @@
                     <p *ngIf="showAnswerMap[card.id]" style="color: #8A9A5B;" class="fw-bold mt-3">{{ card.answer }}</p>
 
                 </div>
-                <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="card-footer d-flex flex-wrap justify-content-between align-items-center">
                     <div>
                         <button (click)="moveCardLeft(card)" class="btn btn-secondary me-2"
                             [disabled]="column.id === '1'">

@@ -1,4 +1,3 @@
-// home.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -23,16 +22,16 @@ export class HomeComponent implements OnInit {
   cards: Card[] = [];
   filteredCards: Card[] = [];
   tags: Tag[] = [];
-  columns: Column[] = []; 
+  columns: Column[] = [];
   selectedTag: string | null = null;
   showAnswerMap: { [key: string]: boolean } = {};
   editCardData: Partial<Card> = {};
   cardToDelete: string | null = null;
   newCard: Partial<Card> = {};
-  newTag: Partial<Tag> = {}; 
+  newTag: Partial<Tag> = {};
 
-  private editModal: any; 
-  private addCardModal: any; 
+  private editModal: any;
+  private addCardModal: any;
   private addTagModal: any;
   private deleteCardModal: any;
 
@@ -43,6 +42,9 @@ export class HomeComponent implements OnInit {
     private router: Router
   ) { }
 
+  /**
+   * Initialisation du composant. Charge les cartes, tags et colonnes à l'ouverture de la page.
+   */
   ngOnInit() {
     this.loadCards();
     this.loadTags();
@@ -53,31 +55,52 @@ export class HomeComponent implements OnInit {
     this.deleteCardModal = new bootstrap.Modal(document.getElementById('deleteCardModal'));
   }
 
+  /**
+    * Charge les cartes depuis le service `CardsService`.
+    */
   loadCards() {
     this.cardsService.getCards().subscribe(cards => {
       this.cards = cards;
     });
   }
 
+  /**
+   * Charge les tags depuis le service `TagsService`.
+   */
   loadTags() {
     this.tagsService.getTags().subscribe(tags => this.tags = tags);
   }
 
+  /**
+   * Charge les colonnes depuis le service `ColumnsService`.
+   */
   loadColumns() {
     this.columnsService.getColumns().subscribe(columns => this.columns = columns);
   }
 
+  /**
+   * Filtre les cartes par tag.
+   * @param {string} tagId - L'identifiant du tag sélectionné.
+   */
   filterByTag(tagId: string) {
     this.selectedTag = tagId;
     this.filterCards();
   }
 
+  /**
+   * Filtre les cartes en fonction du tag sélectionné.
+   */
   filterCards() {
     this.filteredCards = this.cards.filter(c =>
       c.tag === this.selectedTag || !this.selectedTag
     );
   }
 
+  /**
+   * Retourne les cartes correspondant à une colonne donnée.
+   * @param {string} columnId - L'identifiant de la colonne.
+   * @returns {Card[]} - Liste des cartes dans la colonne.
+   */
   getCardsByColumn(columnId: string): Card[] {
     let filteredCards = this.cards.filter(card => card.column === columnId);
 
@@ -87,14 +110,27 @@ export class HomeComponent implements OnInit {
     return filteredCards;
   }
 
+  /**
+   * Affiche ou masque la réponse d'une carte.
+   * @param {string} cardId - L'identifiant de la carte.
+   */
   showAnswer(cardId: string) {
     this.showAnswerMap[cardId] = !this.showAnswerMap[cardId];
   }
 
+  /**
+   * Déplace une carte vers une colonne donnée.
+   * @param {string} cardId - L'identifiant de la carte.
+   * @param {string} columnId - L'identifiant de la nouvelle colonne.
+   */
   moveCard(cardId: string, columnId: string) {
     this.cardsService.updateCardColumn(cardId, columnId).subscribe(() => this.loadCards());
   }
 
+  /**
+   * Déplace une carte vers la colonne à gauche.
+   * @param {Card} card - La carte à déplacer.
+   */
   moveCardLeft(card: Card) {
     const currentColumn = this.columns.find(c => c.id === card.column);
     if (currentColumn && currentColumn.order > 1) {
@@ -105,6 +141,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Déplace une carte vers la colonne à droite.
+   * @param {Card} card - La carte à déplacer.
+   */
   moveCardRight(card: Card) {
     const currentColumn = this.columns.find(c => c.id === card.column);
     if (currentColumn && currentColumn.order < this.columns.length) {
@@ -115,11 +155,18 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Ouvre la fenêtre modale pour l'édition d'une carte.
+   * @param {Card} card - La carte à éditer.
+   */
   openEditModal(card: Card) {
     this.editCardData = { ...card };
     this.editModal.show();
   }
 
+  /**
+   * Envoie les modifications de la carte et recharge les cartes.
+   */
   submitEditCard() {
     if (this.editCardData.id) {
       this.cardsService.updateCard(this.editCardData.id, this.editCardData as Card).subscribe(() => {
@@ -129,12 +176,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Prépare la suppression d'une carte en ouvrant la modale de confirmation.
+   * @param {string} cardId - L'identifiant de la carte à supprimer.
+   */
   prepareDeleteCard(cardId: string) {
     this.cardToDelete = cardId;
     this.deleteCardModal.show();
   }
 
-  confirmDelete() {    
+  /**
+   * Confirme et supprime la carte sélectionnée.
+   */
+  confirmDelete() {
     if (this.cardToDelete) {
       this.cardsService.deleteCard(this.cardToDelete).subscribe(() => {
         this.loadCards();
@@ -144,11 +198,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Ouvre la fenêtre modale pour ajouter une nouvelle carte.
+   */
   openAddCardModal() {
     this.newCard = {};
     this.addCardModal.show();
   }
 
+  /**
+   * Soumet la nouvelle carte et recharge la liste des cartes.
+   */
   submitAddCard() {
     if (this.newCard.question && this.newCard.answer && this.newCard.column && this.newCard.tag) {
       this.cardsService.createCard(this.newCard as Card).subscribe(() => {
@@ -158,11 +218,17 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Ouvre la fenêtre modale pour ajouter un nouveau tag.
+   */
   openAddTagModal() {
     this.newTag = {};
     this.addTagModal.show();
   }
 
+  /**
+   * Soumet le nouveau tag et recharge la liste des tags.
+   */
   submitAddTag() {
     if (this.newTag.label) {
       this.tagsService.createTag(this.newTag as Tag).subscribe(() => {
@@ -171,7 +237,10 @@ export class HomeComponent implements OnInit {
       });
     }
   }
-
+  
+  /**
+   * Réinitialise la sélection de tag et redirige vers la page d'accueil.
+   */
   goHome() {
     this.selectedTag = null;
     this.router.navigate(['/home']);
